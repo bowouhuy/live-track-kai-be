@@ -1,0 +1,22 @@
+# Override for a VPS where Caddy runs in its own container.
+# Joins the shared external network and stops publishing the port on the host.
+#
+#   docker network create web          # once (shared with the Caddy stack)
+#   docker compose -f docker-compose.yml -f docker-compose.caddy.yml up -d --build
+#   (or set COMPOSE_FILE=docker-compose.yml:docker-compose.caddy.yml in .env)
+#
+# Caddyfile:  reverse_proxy live-track-kai-backend:8080 { flush_interval -1 }
+
+services:
+  backend:
+    ports: !reset []
+    networks:
+      default:
+      caddy:
+        aliases:
+          - live-track-kai-backend
+
+networks:
+  caddy:
+    name: ${CADDY_NETWORK:-web}
+    external: true

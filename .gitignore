@@ -1,0 +1,10 @@
+.env
+/server
+/fetch
+*.exe
+data/raw/*.json
+data/raw/*.tmp
+
+# IDE
+.idea/
+.vscode/
